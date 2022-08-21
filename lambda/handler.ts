@@ -1,6 +1,4 @@
-import { Handler } from 'aws-lambda'; // npm install -D @types/aws-lambda
-
-export const main: Handler = async (event) => {
+export const main = () => {
   return {
     statusCode: 200,
     body: JSON.stringify({

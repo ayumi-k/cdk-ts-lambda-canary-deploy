@@ -27,7 +27,7 @@ export class CdkTsLambdaCanaryDeployStack extends Stack {
         description: `Version deployed on ${currentDate}`,
         removalPolicy: RemovalPolicy.RETAIN
       }
-    })
+    });
 
     const newVersion = myLambda.currentVersion;
     newVersion.applyRemovalPolicy(RemovalPolicy.RETAIN)
@@ -35,14 +35,14 @@ export class CdkTsLambdaCanaryDeployStack extends Stack {
     const alias = new Alias(this, 'FunctionAlias', {
       aliasName: aliasName,
       version: newVersion
-    })
+    });
 
     new LambdaRestApi(this, 'RestApi', {
       handler: alias,
       deployOptions: {
         stageName,
       }
-    })
+    });
 
     const failureAlarm = new Alarm(this, 'FunctionFailure', {
       metric: alias.metricErrors(),
@@ -51,12 +51,12 @@ export class CdkTsLambdaCanaryDeployStack extends Stack {
       alarmDescription: 'The latest deployment errors > 0',
       alarmName: `${stageName}-canary-alarm`,
       comparisonOperator: ComparisonOperator.GREATER_THAN_THRESHOLD
-    })
+    });
 
     new LambdaDeploymentGroup(this, 'CanaryDeployment', {
       alias: alias,
       deploymentConfig: LambdaDeploymentConfig.CANARY_10PERCENT_5MINUTES,
       alarms: [ failureAlarm ]
-    })
+    });
   }
 }
