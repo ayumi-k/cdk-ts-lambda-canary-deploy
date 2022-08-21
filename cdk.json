@@ -35,6 +35,23 @@
     "@aws-cdk/core:target-partitions": [
       "aws",
       "aws-cn"
-    ]
+    ],
+    "prefix": "cdk-workshop-stack",
+    "qa": {
+      "region": "ap-northeast-1",
+      "lambda": {
+        "name": "cdk-workshop-function-qa",
+        "alias": "live",
+        "stage": "qa"
+      },
+      "tags": {
+        "App":"cdk-workshop",
+        "Environment": "QA",
+        "IaC": "CDK"
+      }
+    },
+    "prod": {
+
+    }
   }
 }
